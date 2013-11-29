@@ -4,23 +4,8 @@
 #include <util/delay.h>
 #include "macros.h"
 
-#define LED 3,C
+#define LED 5,C
 #define BUTTON 4,C
-#define SEND 5,C 
-
-
-int capsense(void)
-{
-	int t=0;
-	on(SEND);
-	_delay_ms(1);
-	off(SEND);
-	for(t=0;t<=65535;t++) {
-		if(!get(BUTTON))
-			break;
-	}
-	return t;
-}
 
 void debug(char d)
 {
@@ -29,32 +14,22 @@ void debug(char d)
 
 int main(void)
 {
-	int thresh=0;
-	int t=0;
-
+	char cpt=0;
 	out(LED);
 	in(BUTTON);
-	out(SEND);
 
 	DDRD = 0b1111;
 
-	thresh = 125 * capsense() / 100;
-
-	debug((char)(thresh/(255*16)));
+	debug((char)1);
 	_delay_ms(2000);
-	debug((char)(thresh % 256));
+	debug(cpt);
 
 	while(1) {
-		debug((char)2);
-		do {
-			t = capsense();
-		} while (t < thresh);
-		flip(LED);
-		debug((char)3);
-		do {
-			t = capsense();
-		} while (t >= thresh);
-
+		while(!get(BUTTON));
+                flip(LED);
+		cpt=(cpt+1)%16;
+		debug((char)cpt);
+		while(get(BUTTON));
 	}
 	return 0;
 }
