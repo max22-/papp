@@ -5,7 +5,8 @@
 #include "macros.h"
 
 #define LED 5,C
-#define BUTTON 4,C
+#define BUTTON1 4,C
+#define BUTTON2 3,C
 
 void debug(char d)
 {
@@ -16,7 +17,8 @@ int main(void)
 {
 	char cpt=0;
 	out(LED);
-	in(BUTTON);
+	in(BUTTON1);
+	in(BUTTON2);
 
 	DDRD = 0b1111;
 
@@ -25,11 +27,10 @@ int main(void)
 	debug(cpt);
 
 	while(1) {
-		while(!get(BUTTON));
-                flip(LED);
-		cpt=(cpt+1)%16;
-		debug((char)cpt);
-		while(get(BUTTON));
+		if(!get(BUTTON1) && !get(BUTTON2))
+			on(LED);
+		else
+			off(LED);
 	}
 	return 0;
 }
