@@ -12,6 +12,15 @@ ISR(TIMER0_COMPA_vect)
 	flip(SPEAKER);
 }
 
+void la(void)
+{
+	cli();
+	OCR0A = 141;
+	TIMSK0 |= (1<<OCIE0A);
+	sei();
+}
+
+
 void sib(void)
 {
 	cli();
@@ -77,7 +86,7 @@ void lab(void)
 	sei();
 }
 
-void la(void)
+void la2(void)
 {
 	cli();
 	OCR0A = 70;
@@ -104,7 +113,9 @@ void ut2(void)
 void silence(void)
 {
 	cli();
-	TIMSK0 |= (0<<OCIE0A);
+	TCCR0A=0;
+	TCCR0B=0;
+	TIMSK0 &= ~(1<<OCIE0A);
 	off(SPEAKER);
 	sei();
 }
@@ -159,10 +170,10 @@ int main(void)
 				sol();
 				break;
 			case 0b00100000:
-				la();
+				lab();
 				break;
 			case 0b00000000:
-				la();
+				la2();
 				break;
 			case 0b00111111:
 				sib2();
