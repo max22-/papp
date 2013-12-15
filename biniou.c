@@ -5,7 +5,7 @@
 #include <avr/interrupt.h>
 #include "macros.h"
 
-#define SPEAKER 0,B
+#define SPEAKER 4,C
 
 ISR(TIMER0_COMPA_vect)
 {
@@ -117,7 +117,7 @@ void debug(char d)
 int main(void)
 {
 	DDRD = 0b1111;
-	DDRC = 0;
+	DDRB = 0;
 	out(SPEAKER);
 
 	debug((char)1);
@@ -133,38 +133,41 @@ int main(void)
 
 
 	while(1) {
-		switch(PORTC) {
-			case 0b111111:
+		switch(PINB) {
+			case 0b01111111:
+				la();	
+				break;
+			case 0b01111110:
 				sib();	
 				break;
-			case 0b111110:
+			case 0b01111100:
 				ut();
 				break;
-			case 0b111100:
+			case 0b01111000:
 				re();
 				break;
-			case 0b111000:
+			case 0b01110000:
 				mib();	
 				break;
-			case 0b110100:
+			case 0b01101000:
 				mi();
 				break;
-			case 0b110000:
+			case 0b01100000:
 				fa();
 				break;
-			case 0b100000:
+			case 0b01000000:
 				sol();
 				break;
-			case 0b010000:
+			case 0b00100000:
 				la();
 				break;
-			case 0b000000:
+			case 0b00000000:
 				la();
 				break;
-			case 0b011111:
+			case 0b00111111:
 				sib2();
 				break;
-			case 0b011110:
+			case 0b00111100:
 				ut2();
 				break;
 			default:
