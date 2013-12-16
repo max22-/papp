@@ -7,6 +7,14 @@
 
 #define SPEAKER 4,C
 
+void setup_timer(void)
+{
+	TCCR0B |= (1<<CS01);
+	TCCR0A |= (1<<WGM01);
+	TIMSK0 |= (1<<OCIE0A);
+	
+}
+
 ISR(TIMER0_COMPA_vect)
 {
 	flip(SPEAKER);
@@ -15,8 +23,8 @@ ISR(TIMER0_COMPA_vect)
 void la(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 141;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
@@ -24,40 +32,40 @@ void la(void)
 void sib(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 133;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void ut(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 118;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void re(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 105;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void mib(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 99;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void mi(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 94;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
@@ -65,48 +73,48 @@ void mi(void)
 void fa(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 88;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void sol(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 79;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void lab(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 74;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void la2(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 70;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void sib2(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 66;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
 void ut2(void)
 {
 	cli();
+	setup_timer();
 	OCR0A = 59;
-	TIMSK0 |= (1<<OCIE0A);
 	sei();
 }
 
@@ -134,14 +142,6 @@ int main(void)
 	debug((char)1);
 	_delay_ms(2000);
 	debug(0);
-
-	cli();
-	TCCR0B |= (1<<CS01);
-	TCCR0A |= (1<<WGM01);
-	OCR0A = 133;
-	TIMSK0 |= (1<<OCIE0A);
-	sei();
-
 
 	while(1) {
 		switch(PINB) {
