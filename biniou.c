@@ -7,12 +7,13 @@
 
 #define SPEAKER 4,C
 
+int mute = 1;
+
 void setup_timer(void)
 {
 	TCCR0B |= (1<<CS01);
 	TCCR0A |= (1<<WGM01);
 	TIMSK0 |= (1<<OCIE0A);
-	
 }
 
 ISR(TIMER0_COMPA_vect)
