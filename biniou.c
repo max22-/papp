@@ -20,112 +20,30 @@ ISR(TIMER0_COMPA_vect)
 	flip(SPEAKER);
 }
 
-void la(void)
+void play(int n)
 {
-	cli();
-	setup_timer();
-	OCR0A = 141;
-	sei();
-}
-
-
-void sib(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 133;
-	sei();
-}
-
-void ut(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 118;
-	sei();
-}
-
-void re(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 105;
-	sei();
-}
-
-void mib(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 99;
-	sei();
-}
-
-void mi(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 94;
-	sei();
-}
-
-
-void fa(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 88;
-	sei();
-}
-
-void sol(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 79;
-	sei();
-}
-
-void lab(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 74;
-	sei();
-}
-
-void la2(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 70;
-	sei();
-}
-
-void sib2(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 66;
-	sei();
-}
-
-void ut2(void)
-{
-	cli();
-	setup_timer();
-	OCR0A = 59;
-	sei();
+	if(mute) {
+		cli();
+		setup_timer();
+	}
+	OCR0A = n;
+	if(mute) {
+		sei();
+		mute=0;
+	}
 }
 
 void silence(void)
 {
+	if(mute==1)
+		return;
 	cli();
 	TCCR0A=0;
 	TCCR0B=0;
 	TIMSK0 &= ~(1<<OCIE0A);
 	off(SPEAKER);
 	sei();
+	mute=1;
 }
 
 void debug(char d)
@@ -141,45 +59,45 @@ int main(void)
 
 	debug((char)1);
 	_delay_ms(2000);
-	debug(0);
+	debug((char)2);
 
 	while(1) {
 		switch(PINB) {
-			case 0b01111111:
-				la();	
+			case 0b01111111:  // la
+				play(141); 
 				break;
-			case 0b01111110:
-				sib();	
+			case 0b01111110: // sib
+				play(133);
 				break;
-			case 0b01111100:
-				ut();
+			case 0b01111100: // do
+				play(118);
 				break;
-			case 0b01111000:
-				re();
+			case 0b01111000: // re
+				play(105);
 				break;
-			case 0b01110000:
-				mib();	
+			case 0b01110000: // mib
+				play(99);
 				break;
-			case 0b01101000:
-				mi();
+			case 0b01101000: // mi 
+				play(94);
 				break;
-			case 0b01100000:
-				fa();
+			case 0b01100000: // fa
+				play(88);
 				break;
-			case 0b01000000:
-				sol();
+			case 0b01000000: // sol
+				play(79);
 				break;
-			case 0b00100000:
-				lab();
+			case 0b00100000: // lab
+				play(74);
 				break;
-			case 0b00000000:
-				la2();
+			case 0b00000000: // la (octave)
+				play(70);
 				break;
-			case 0b00111111:
-				sib2();
+			case 0b00111111: // sib (octave)
+				play(66);
 				break;
-			case 0b00111100:
-				ut2();
+			case 0b00111100: //do (octave)
+				play(59);
 				break;
 			default:
 				silence();
