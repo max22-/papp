@@ -52,6 +52,24 @@ void debug(char d)
 	PORTD = ~d;
 }
 
+// stepper motor
+
+void circular_shift(volatile uint8_t *c)
+{
+	*c = ((*c<<1) & 0xF) | ( *c >> 3);
+}
+
+void stepper(void)
+{
+	static uint16_t cpt=0;
+	if (cpt>=1000) {
+		circular_shift(&PORTD);
+		cpt=0;
+	}
+	cpt++;
+
+}
+// #############
 int main(void)
 {
 	DDRD = 0b1111;
@@ -59,10 +77,9 @@ int main(void)
 	out(SPEAKER);
 
 	debug((char)1);
-	_delay_ms(2000);
-	debug((char)2);
 
 	while(1) {
+		stepper();
 		switch(PINB) {
 			case 0b01111111:  // la
 				play(141); 
