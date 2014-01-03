@@ -56,7 +56,7 @@ void debug(char d)
 
 void circular_shift(volatile uint8_t *c)
 {
-	*c = ((*c<<1) & 0xF) | ( *c >> 3);
+	*c = ((*c<<1) & 0xF) | ( (*c & 0xF) >> 3);
 }
 
 void stepper(void)
