@@ -9,6 +9,8 @@
 #define STEP 0,B
 #define DIRECTION 1,B
 
+#define MOD(a,b) (((a)%(b)) < 0 ? ((a)%(b)+(b)) : ((a)%(b)))
+
 uint8_t half_step[] = {0b1110, 0b1100, 0b1101, 0b1001, 0b1011, 0b0011, 0b0111, 0b0110};
 uint8_t c = 0;
 
@@ -39,10 +41,10 @@ ISR(PCINT0_vect) {
 		_delay_ms(100);
 	}
 	if(get(DIRECTION)) {
-		c = (c+1) % 8;
+		c = MOD(c+1, 8);
 	}
 	else {
-		c = (c-1) % 8;
+		c = MOD(c-1, 8);
 	}
 	PORTD=half_step[c];
 	//blink(10);
