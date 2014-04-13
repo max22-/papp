@@ -1,6 +1,6 @@
 CC=avr-gcc
 OBJCOPY=avr-objcopy
-TARGET=plotterbot
+TARGET=stepperdriver
 
 CFLAGS=-g -mmcu=atmega328p -Wall -Wstrict-prototypes -Os -mcall-prologues
 
