@@ -1,7 +1,6 @@
 CC=avr-gcc
 OBJCOPY=avr-objcopy
-PARPORT=/dev/parport0
-TARGET=biniou
+TARGET=plotterbot
 
 CFLAGS=-g -mmcu=atmega328p -Wall -Wstrict-prototypes -Os -mcall-prologues
 
@@ -27,19 +26,12 @@ publish: all unpublish
 	mv ../$(TARGET).tar.gz ~/public_html/
 
 
-prog_erase:
-	sudo uisp -dlpt=$(PARPORT) --erase -dprog=dapa
+prog:
+	sudo avrdude -p atmega328p -c gpio -P gpio -U flash:w:$(TARGET).hex
 
-prog_burn:
-	sudo uisp -dlpt=$(PARPORT) --upload if=$(TARGET).hex -dprog=dapa -dno-poll -v
-
-prog_verif:
-	sudo uisp -dlpt=$(PARPORT) --verify if=$(TARGET).hex -dprog=dapa -dno-poll -v
-
-prog: prog_erase prog_burn prog_verif
-
-cprog: $(TARGET).hex prog_erase prog_burn prog_verif
+cprog: $(TARGET).hex prog
 
 install_pkgs:
-	sudo apt-get install gcc-avr binutils-avr avr-libc uisp
+	sudo apt-get install gcc-avr binutils-avr avr-libc avrdude 
 
+	
