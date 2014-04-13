@@ -1,11 +1,14 @@
 #define F_CPU 1000000UL
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include "macros.h"
 
-#define SIZE 100
-#define DELAY 100
+#define DEBOUNCE 1
+
+uint8_t half_step[] = {0b1110, 0b1100, 0b1101, 0b1001, 0b1011, 0b0011, 0b0111, 0b0110};
+uint8_t c = 0;
 
 void forward(volatile uint8_t *p)
 {
@@ -17,32 +20,33 @@ void backward(volatile uint8_t *p)
 	*p = ((*p>>1) & 0xF) | ( (*p & 0xF) << 3);
 }
 
+/*ISR(INT0_vect) {
+	if(DEBOUNCE) {
+		_delay_ms(100);
+	}
+	c++;
+	PORTD=half_step[c];
+}*/
+
+
+void blink(uint8_t n) {
+	int i;
+	for(i=0;i<n;i++) {
+		PORTD = 0b1110;
+		_delay_ms(1000);
+		PORTD = 0b1111;
+		_delay_ms(1000);
+	}
+}
+
 int main(void)
 {
-	int i;
 	DDRD = 0b1111;
-	DDRC = 0b1111;
+	DDRB = 0;
 
-	PORTC = 0b1110;
-	PORTD = 0b1110;
+	blink(10);
 
 	while(1) {
-		for(i=0;i<SIZE;i++) {
-			forward(&PORTC);
-			_delay_ms(DELAY);
-		}	
-		for(i=0;i<SIZE;i++) {
-			forward(&PORTD);
-			_delay_ms(DELAY);
-		}	
-		for(i=0;i<SIZE;i++) {
-			backward(&PORTC);
-			_delay_ms(DELAY);
-		}	
-		for(i=0;i<SIZE;i++) {
-			backward(&PORTD);
-			_delay_ms(DELAY);
-		}	
 
 	}
 	return 0;
