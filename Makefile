@@ -27,7 +27,7 @@ publish: all unpublish
 
 
 prog:
-	sudo avrdude -p atmega328p -c gpio -P gpio -U flash:w:$(TARGET).hex
+	sudo avrdude -p atmega328p -c gpio -P gpio -U flash:w:$(TARGET).hex -F
 
 cprog: $(TARGET).hex prog
 
