@@ -5,9 +5,11 @@
 #include <util/delay.h>
 #include "macros.h"
 
-#define DEBOUNCE 1
+#define DEBOUNCE 0
+
 #define STEP 0,B
 #define DIRECTION 1,B
+#define LED 0,D
 
 #define MOD(a,b) (((a)%(b)) < 0 ? ((a)%(b)+(b)) : ((a)%(b)))
 
@@ -25,6 +27,7 @@ void blink(uint8_t n) {
 	}
 }
 
+/*
 ISR(PCINT0_vect) {
 	if(get(STEP) == 0) 
 		return;
@@ -39,23 +42,40 @@ ISR(PCINT0_vect) {
 	}
 	PORTD=half_step[c];
 }
-
+*/
 
 
 
 int main(void)
 {
+	uint8_t s, new_s;
+	uint8_t cpt=0;
 	DDRD = 0b1111;
 	DDRB = 0;
-
+/*
 	PCICR |= (1 <<PCIE0);
 	PCMSK0 |= (1 << PCINT0);
 	sei();
-
+*/
 	blink(10);
 
+	new_s = get(STEP);
 	while(1) {
-
+		s=new_s;
+		new_s=get(STEP);
+		if(s==0 && new_s==1) {
+			cpt++;
+			if(cpt>=100) {
+				cpt=0;
+				if(get(DIRECTION)) {
+					c = MOD(c+1, 8);
+				}
+				else {
+					c = MOD(c-1, 8);
+				}
+				PORTD=half_step[c];
+			}
+		}
 	}
 	return 0;
 }
