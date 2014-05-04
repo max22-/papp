@@ -51,10 +51,14 @@ int main(void)
 				cpt++;
 				if(cpt>=100) {
 					cpt=0;	
-					if(*dir_port[i]&(1<<dir_bit[i]))
+					if(*dir_port[i]&(1<<dir_bit[i])) {
 						c[i]++;
-					else 
+						on(LED); //debug
+					}
+					else  {
 						c[i]--;
+						off(LED); //debug
+					}
 					m[i] = half_step[c[i]&0b111];
 				}	
 			}
