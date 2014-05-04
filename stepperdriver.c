@@ -29,7 +29,7 @@ int main(void)
 	uint8_t i;
 	// Direction pins : C4, C5, B6
 	uint8_t dir_bit[3] = {4, 5, 6};
-	uint8_t dir_port[3] = {PINC, PINC, PINB};
+	volatile uint8_t *dir_port[3] = {&PINC, &PINC, &PINB};
 
 	// B0 : step1, B1 : step2, B2 : step3, B6 : dir3, B7 : led
 	DDRB = 0b10000000;
@@ -54,7 +54,7 @@ int main(void)
 				cpt++;
 				if(cpt>=100) {
 					cpt=0;	
-					if(dir_port[i]&(1<<dir_bit[i]))
+					if(*dir_port[i]&(1<<dir_bit[i]))
 						c[i]++;
 					else 
 						c[i]--;
