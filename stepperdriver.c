@@ -11,10 +11,8 @@
 
 #define LED 7,B
 
-#define MOD(a,b) (((a)%(b)) < 0 ? ((a)%(b)+(b)) : ((a)%(b)))
-
 uint8_t half_step[] = {0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000, 0b1001};
-uint8_t c = 0;
+uint8_t c1 = 0;
 
 void blink(uint8_t n) {
 	int i;
@@ -51,13 +49,11 @@ int main(void)
 			cpt++;
 			if(cpt>=100) {
 				cpt=0;
-				if(get(DIR1)) {
-					c = MOD(c+1, 8);
-				}
-				else {
-					c = MOD(c-1, 8);
-				}
-				m1 = half_step[c];
+				if(get(DIR1))
+					c1++;
+				else 
+					c1--;
+				m1 = half_step[c1&0b111];
 			}
 		}
 		PORTC = m1;
