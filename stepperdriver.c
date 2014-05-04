@@ -5,14 +5,12 @@
 #include <util/delay.h>
 #include "macros.h"
 
-#define DIR1 4,C
-#define DIR2 5,C
-#define DIR3 6,B
 
 #define LED 7,B
 
+#define SLOW(x) cpt++; if(cpt>=100) {cpt=0; x}
+
 uint8_t half_step[] = {0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000, 0b1001};
-uint8_t c1 = 0;
 
 void blink(uint8_t n) {
 	int i;
@@ -28,8 +26,13 @@ int main(void)
 {
 	uint8_t s, new_s; // used to memorize step pins to detect raising front
 	uint8_t rf=0; // raising front
-	uint8_t m1=0, m2=0, m3=0; // temp storage for motor output
 	uint8_t cpt=0;
+	uint8_t c[3] = {0, 0, 0}; // step counter for each motor
+	uint8_t m[3] = {0, 0, 0}; // temp storage for motor output
+	uint8_t i;
+	// Direction pins : C4, C5, B6
+	uint8_t dir_bit[3] = {4, 5, 6};
+	uint8_t dir_port[3] = {PINC, PINC, PINB};
 
 	// B0 : step1, B1 : step2, B2 : step3, B6 : dir3, B7 : led
 	DDRB = 0b10000000;
@@ -45,19 +48,21 @@ int main(void)
 		s=new_s;
 		new_s=PINB;
 		rf = ~s&new_s;
-		if(rf&1) { // raising front on B0
-			cpt++;
-			if(cpt>=100) {
-				cpt=0;
-				if(get(DIR1))
-					c1++;
-				else 
-					c1--;
-				m1 = half_step[c1&0b111];
+
+		for(i=0;i<3;i++) {
+			if(rf&(1<<i)) { // raising front on B0 (i=0), B1 (i=1), B2 (i=2)
+				SLOW(
+					if(dir_port[i]&(1<<dir_bit[i]))
+						c[i]++;
+					else 
+						c[i]--;
+					m[i] = half_step[c[i]&0b111];
+				)	
 			}
 		}
-		PORTC = m1;
-		PORTD = m2 | m3 << 4;
+
+		PORTC = m[0];
+		PORTD = m[1] | m[2] << 4;
 	}
 	return 0;
 }
