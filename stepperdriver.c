@@ -52,6 +52,7 @@ int main(void)
 			cpt++;
 			if(cpt>=100)
 				cpt=0;
+			flip(LED); //Debug !!
 		}
 
 		if(rf&1) { // raising front on B0 
