@@ -23,7 +23,7 @@ int main(void)
 {
 	uint8_t s, new_s; // used to memorize step pins to detect raising front
 	uint8_t rf=0; // raising front
-	uint8_t cpt=0;
+	uint8_t cpt[3] = {0, 0, 0};
 	uint8_t c[3] = {0, 0, 0}; // step counter for each motor
 	uint8_t m[3] = {0, 0, 0}; // temp storage for motor output
 	uint8_t i;
@@ -48,9 +48,9 @@ int main(void)
 
 		for(i=0;i<3;i++) {
 			if(rf&(1<<i)) { // raising front on B0 (i=0), B1 (i=1), B2 (i=2)
-				cpt++;
-				if(cpt>=100) {
-					cpt=0;	
+				cpt[i]++;
+				if(cpt[i]>=100) {
+					cpt[i]=0;	
 					if(*dir_port[i]&(1<<dir_bit[i]))
 						c[i]++;
 					else 
