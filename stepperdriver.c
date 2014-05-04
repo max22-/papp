@@ -48,21 +48,23 @@ int main(void)
 		new_s=PINB;
 		rf = ~s&new_s;
 
-		if(rf&1) { // raising front on B0 
+		if(rf!=0) {
 			cpt++;
-			if(cpt>=100) {
-				cpt=0;	
+			if(cpt>=100)
+				cpt=0;
+		}
+
+		if(rf&1) { // raising front on B0 
+			if(cpt==0) {
 				if(get(DIR1))
 					c1++;
 				else 
 					c1--;
 				m1 = half_step[c1&0b111];
 			}	
-		}/*
+		}
 		if(rf&2) { // raising front on B1 
-			cpt++;
-			if(cpt>=100) {
-				cpt=0;	
+			if(cpt==0) {
 				if(get(DIR2))
 					c2++;
 				else 
@@ -71,16 +73,14 @@ int main(void)
 			}	
 		}
 		if(rf&4) { // raising front on B2 
-			cpt++;
-			if(cpt>=100) {
-				cpt=0;	
+			if(cpt==0) {
 				if(get(DIR3))
 					c3++;
 				else 
 					c3--;
 				m3 = half_step[c3&0b111];
 			}	
-		}*/
+		}
 
 
 		PORTC = m1;
