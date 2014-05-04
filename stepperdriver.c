@@ -48,6 +48,7 @@ int main(void)
 
 		for(i=0;i<3;i++) {
 			if(rf&(1<<i)) { // raising front on B0 (i=0), B1 (i=1), B2 (i=2)
+				flip(LED);
 				cpt[i]++;
 				if(cpt[i]>=100) {
 					cpt[i]=0;	
