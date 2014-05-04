@@ -52,8 +52,7 @@ int main(void)
 				cpt[i]++;
 				if(cpt[i]>=100) {
 					cpt[i]=0;	
-					if(_get(4,C))
-//					if(*dir_port[i]&(1<<dir_bit[i]))
+					if(*dir_port[i]&(1<<dir_bit[i]))
 						c[i]++;
 					else 
 						c[i]--;
