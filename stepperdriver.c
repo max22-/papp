@@ -58,7 +58,7 @@ int main(void)
 					c1--;
 				m1 = half_step[c1&0b111];
 			}	
-		}
+		}/*
 		if(rf&2) { // raising front on B1 
 			cpt++;
 			if(cpt>=100) {
@@ -80,7 +80,7 @@ int main(void)
 					c3--;
 				m3 = half_step[c3&0b111];
 			}	
-		}
+		}*/
 
 
 		PORTC = m1;
