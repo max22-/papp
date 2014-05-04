@@ -53,11 +53,11 @@ int main(void)
 					cpt=0;	
 					if(*dir_port[i]&(1<<dir_bit[i])) {
 						c[i]++;
-						on(LED); //debug
+//						on(LED); //debug
 					}
 					else  {
 						c[i]--;
-						off(LED); //debug
+//						off(LED); //debug
 					}
 					m[i] = half_step[c[i]&0b111];
 				}	
