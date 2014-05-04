@@ -5,10 +5,7 @@
 #include <util/delay.h>
 #include "macros.h"
 
-
 #define LED 7,B
-
-#define SLOW(x) cpt++; if(cpt>=100) {cpt=0; x}
 
 uint8_t half_step[] = {0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000, 0b1001};
 
@@ -54,13 +51,15 @@ int main(void)
 			if (_get(4,C)) on(LED); else off(LED);
 			// #####
 			if(rf&(1<<i)) { // raising front on B0 (i=0), B1 (i=1), B2 (i=2)
-				SLOW(
+				cpt++;
+				if(cpt>=100) {
+					cpt=0;	
 					if(dir_port[i]&(1<<dir_bit[i]))
 						c[i]++;
 					else 
 						c[i]--;
 					m[i] = half_step[c[i]&0b111];
-				)	
+				}	
 			}
 		}
 
