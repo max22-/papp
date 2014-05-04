@@ -47,9 +47,6 @@ int main(void)
 		rf = ~s&new_s;
 
 		for(i=0;i<3;i++) {
-			// debug
-			if (PINC&(1<<4)) on(LED); else off(LED);
-			// #####
 			if(rf&(1<<i)) { // raising front on B0 (i=0), B1 (i=1), B2 (i=2)
 				cpt++;
 				if(cpt>=100) {
