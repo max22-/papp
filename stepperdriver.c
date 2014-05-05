@@ -36,7 +36,7 @@ int main(void)
 	// B0 : step1, B1 : step2, B2 : step3, B4 : dir1, B5 : dir2, B6 : dir3
 	DDRB = 0b00000000;
 	// C5 : LED
-	DDRC = 0b00100000;
+	DDRC = 0b00101111;
 	// D0 D1 D2 D3 : motor 2, D4 D5 D6 D7 : motor 3
 	DDRD = 0b11111111;
 
