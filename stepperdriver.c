@@ -40,10 +40,10 @@ int main(void)
 	while(1) {
 		pb=new_pb;
 		new_pb=PINB;
-		rf = (~pb&new_pb)&0b111;
+		rf = (~pb&new_pb)&0b111; // detect raising front on the 3 first pins of port B
 		dir = (new_pb >> 3) & 0b111;
-		inc = rf & dir;
-		dec = rf & (~dir);
+		inc = rf & dir;  // we increase the step counter if rf = 1 and dir = 1 (but bitwise, for each motor)
+		dec = rf & (~dir); // we decrease if rf = 1 and dir = 0 (bitwise)
 		if(rf!=0) {
 			flip(LED); // Debug
 			cpt++;
