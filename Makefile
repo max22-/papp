@@ -15,6 +15,9 @@ $(TARGET).out: $(TARGET).o
 $(TARGET).o: $(TARGET).c
 	$(CC) $(CFLAGS) -c $(TARGET).c
 
+$(TARGET).s: $(TARGET).c
+	$(CC) $(CFLAGS) -S $(TARGET).c
+
 clean:
 	rm -f *.o *.map *.out *.hex
 
