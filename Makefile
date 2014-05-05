@@ -1,8 +1,9 @@
 CC=avr-gcc
+DEVICE = atmega328p
+PROGRAMMER = -c gpio -P gpio
 OBJCOPY=avr-objcopy
 TARGET=stepperdriver
-
-CFLAGS=-g -mmcu=atmega328p -Wall -Wstrict-prototypes -Os -mcall-prologues
+CFLAGS=-g -mmcu=$(DEVICE) -Wall -Wstrict-prototypes -Os -mcall-prologues
 
 all: $(TARGET).hex
 
@@ -21,20 +22,8 @@ $(TARGET).s: $(TARGET).c
 clean:
 	rm -f *.o *.map *.out *.hex
 
-unpublish:
-	rm -f ~/public_html/$(TARGET).tar.gz
-publish: all unpublish
-	rm -f ../$(TARGET).tar.gz
-	tar cfvz ../$(TARGET).tar.gz .
-	mv ../$(TARGET).tar.gz ~/public_html/
+install: all
+	sudo avrdude -p $(DEVICE) $(PROGRAMMER) -U flash:w:$(TARGET).hex -F
 
-
-prog:
-	sudo avrdude -p atmega328p -c gpio -P gpio -U flash:w:$(TARGET).hex -F
-
-cprog: $(TARGET).hex prog
-
-install_pkgs:
-	sudo apt-get install gcc-avr binutils-avr avr-libc avrdude 
 
 	
