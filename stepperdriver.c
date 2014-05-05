@@ -45,10 +45,11 @@ int main(void)
 		inc = rf & dir;
 		dec = rf & (~dir);
 		if(rf!=0) {
+			flip(LED); // Debug
 			cpt++;
 			if(cpt>=100) {
 				cpt=0;
-				flip(LED); //Debug !!
+				//flip(LED); //Debug !!
 
 				c1 += inc & 0b001;
 				c1 -= dec & 0b001;
