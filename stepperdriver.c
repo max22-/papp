@@ -5,12 +5,6 @@
 #include <util/delay.h>
 #include "macros.h"
 
-
-// Direction pins : B3, B4, B5
-#define DIR1 3,B
-#define DIR2 4,B
-#define DIR3 5,B
-
 #define LED 5,C
 
 uint8_t half_step[] = {0b0001, 0b0011, 0b0010, 0b0110, 0b0100, 0b1100, 0b1000, 0b1001};
