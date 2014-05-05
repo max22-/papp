@@ -46,7 +46,7 @@ int main(void)
 	while(1) {
 		s=new_s;
 		new_s=PINB;
-		rf = ~s&new_s;
+		rf = (~s&new_s)&0b111;
 
 		if(rf!=0) {
 			cpt++;
