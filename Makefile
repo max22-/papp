@@ -2,7 +2,7 @@ CC=avr-gcc
 DEVICE = atmega328p
 PROGRAMMER = -c gpio -P gpio
 OBJCOPY=avr-objcopy
-TARGET=stepperdriver
+TARGET=papp
 CFLAGS=-g -mmcu=$(DEVICE) -Wall -Wstrict-prototypes -Os -mcall-prologues
 
 all: $(TARGET).hex
