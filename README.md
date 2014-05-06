@@ -1,5 +1,6 @@
-# A stepper motor driver for Atmega328p
-* Made to work with GRBL (link)
+# A triple stepper motor driver for Atmega328p
+* Drives 3 bipolar stepper motors
+* Made to work with [GRBL](https://github.com/grbl/grbl) 
 * Half step (no full step or micro step, perhaps later)
 * Very early phase of development
 
