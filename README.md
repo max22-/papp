@@ -1,9 +1,12 @@
-# A stepper motor driver for Atmega328p (
+# A stepper motor driver for Atmega328p
 * Made to work with GRBL (link)
 * Half step (no full step or micro step, perhaps later)
 * Very early phase of development
 
-# Download
+# Download and burn
+git clone https://github.com/max22-/papp.git
+make
+make install
 
 # Todo
 * Verify that no pulse form GRBL is lost (30kHz ?)
