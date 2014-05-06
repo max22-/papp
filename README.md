@@ -4,9 +4,9 @@
 * Very early phase of development
 
 # Download and burn
-git clone https://github.com/max22-/papp.git
-make
-make install
+* git clone https://github.com/max22-/papp.git
+* make
+* make install
 
 # Todo
 * Verify that no pulse form GRBL is lost (30kHz ?)
