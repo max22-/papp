@@ -22,7 +22,7 @@ $(TARGET).s: $(TARGET).c
 cpp:
 	$(CC) $(CFLAGS) -E $(TARGET).c
 clean:
-	rm -f *.o *.map *.out *.hex
+	rm -f *.o *.map *.out *.hex *.s
 
 install: all
 	sudo avrdude -p $(DEVICE) $(PROGRAMMER) -U flash:w:$(TARGET).hex -F
