@@ -5,6 +5,7 @@
 
 # Download and burn
 * git clone https://github.com/max22-/papp.git
+* cd papp
 * make
 * make install
 
