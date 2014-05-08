@@ -54,9 +54,9 @@ int main(void)
 				c1 += inc & 0b001;
 				c1 -= dec & 0b001;
 				c2 += (inc & 0b010 )>>1;
-				c2 += (dec & 0b010 )>>1;
+				c2 -= (dec & 0b010 )>>1;
 				c3 += (inc & 0b100 )>>2;
-				c3 += (dec & 0b100 )>>2;
+				c3 -= (dec & 0b100 )>>2;
 
 				m1 = half_step[c1&0b111];
 				m2 = half_step[c2&0b111];
