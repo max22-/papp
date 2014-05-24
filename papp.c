@@ -23,7 +23,6 @@ int main(void)
 {
 	uint8_t pb, new_pb; // used to memorize step pins to detect raising front
 	uint8_t rf=0, dir=0, inc=0, dec=0; // raising front, ...
-	uint8_t cpt=0;
 	uint8_t c1=0, c2=0, c3=0; // step counter for each motor
 	uint8_t m1=0, m2=0, m3=0; // temp storage for motor output
 
@@ -45,27 +44,21 @@ int main(void)
 		inc = rf & dir;  // we increase the step counter if rf = 1 and dir = 1 (but bitwise, for each motor)
 		dec = rf & (~dir); // we decrease if rf = 1 and dir = 0 (bitwise)
 		if(rf!=0) {
-			flip(LED); // Debug
-			cpt++;
-			if(cpt>=100) {
-				cpt=0;
-				//flip(LED); //Debug !!
+			flip(LED);
+			c1 += inc & 0b001;
+			c1 -= dec & 0b001;
+			c2 += (inc & 0b010 )>>1;
+			c2 -= (dec & 0b010 )>>1;
+			c3 += (inc & 0b100 )>>2;
+			c3 -= (dec & 0b100 )>>2;
 
-				c1 += inc & 0b001;
-				c1 -= dec & 0b001;
-				c2 += (inc & 0b010 )>>1;
-				c2 -= (dec & 0b010 )>>1;
-				c3 += (inc & 0b100 )>>2;
-				c3 -= (dec & 0b100 )>>2;
-
-				m1 = half_step[c1&0b111];
-				m2 = half_step[c2&0b111];
-				m3 = half_step[c3&0b111];
+			m1 = half_step[c1&0b111];
+			m2 = half_step[c2&0b111];
+			m3 = half_step[c3&0b111];
 
 
-				PORTC = m1;
-				PORTD = m2 | m3 << 4;
-			}
+			PORTC = m1;
+			PORTD = m2 | m3 << 4;
 		}
 
 	}
